@@ -1,0 +1,9 @@
+.ball {
+  position: absolute;
+  border-radius: 50%;
+  height: 10%;
+  width: 10%;
+  min-height: 20px;
+  min-width: 20px;
+  margin: 25% 25%;
+}

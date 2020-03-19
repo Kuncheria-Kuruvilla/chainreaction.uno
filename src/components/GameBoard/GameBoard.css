@@ -1,0 +1,7 @@
+.game-grid td {
+  padding: 0;
+}
+
+.game-grid table {
+  border-spacing: 0px;
+}

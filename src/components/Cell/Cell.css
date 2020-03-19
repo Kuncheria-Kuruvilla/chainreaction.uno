@@ -1,0 +1,12 @@
+.cell {
+  height: 60px;
+  width: 60px;
+  background-color: black;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: bottom;
+}
+
+.ball-wrapper {
+  position: relative;
+}
