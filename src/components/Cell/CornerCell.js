@@ -2,15 +2,20 @@ import React from "react";
 import Cell from "./Cell";
 import Ball from "../Ball/Ball";
 import BallState from "../../game_logic/ball_state";
-const CornerCell = ({ cellState, cellClickHandler }) => {
+
+import withGameLogic from "./withGameLogic";
+
+const CELL_CAPACITY = 1
+const CornerCell = ({ cellState, currentPlayer, possedPlayer, handleCellClick }) => {
   const ballStyle1 = {
     top: "5px",
     left: "3px"
   };
+
   return (
-    <Cell cellClickHandler={cellClickHandler}>
+    <Cell cellClickHandler={handleCellClick} color={currentPlayer?.color}>
       <Ball
-        color="red"
+        color={possedPlayer?.color}
         alignment={ballStyle1}
         state={
           cellState?.activeBalls >= 1 ? BallState.ACTIVE : BallState.DISABLED
@@ -20,4 +25,4 @@ const CornerCell = ({ cellState, cellClickHandler }) => {
   );
 };
 
-export default CornerCell;
+export default withGameLogic(CornerCell, CELL_CAPACITY);

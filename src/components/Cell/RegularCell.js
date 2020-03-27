@@ -2,8 +2,10 @@ import React from "react";
 import Cell from "./Cell";
 import Ball from "../Ball/Ball";
 import BallState from "../../game_logic/ball_state";
+import withGameLogic from "./withGameLogic";
 
-const RegularCell = ({ cellState, cellClickHandler }) => {
+const CELL_CAPACITY = 3
+const RegularCell = ({ cellState, currentPlayer, possedPlayer, handleCellClick }) => {
   const ballStyle1 = {
     top: "-5px",
     left: "3px"
@@ -16,24 +18,25 @@ const RegularCell = ({ cellState, cellClickHandler }) => {
     top: "10px",
     left: "-6px"
   };
+
   return (
-    <Cell cellClickHandler={cellClickHandler}>
+    <Cell cellClickHandler={handleCellClick} color={currentPlayer?.color} >
       <Ball
-        color="red"
+        color={possedPlayer?.color}
         alignment={ballStyle1}
         state={
           cellState?.activeBalls >= 1 ? BallState.ACTIVE : BallState.DISABLED
         }
       ></Ball>
       <Ball
-        color="red"
+        color={possedPlayer?.color}
         alignment={ballStyle2}
         state={
           cellState?.activeBalls >= 2 ? BallState.ACTIVE : BallState.DISABLED
         }
       ></Ball>
       <Ball
-        color="red"
+        color={possedPlayer?.color}
         alignment={ballStyle3}
         state={
           cellState?.activeBalls >= 3 ? BallState.ACTIVE : BallState.DISABLED
@@ -43,4 +46,4 @@ const RegularCell = ({ cellState, cellClickHandler }) => {
   );
 };
 
-export default RegularCell;
+export default withGameLogic(RegularCell, CELL_CAPACITY);

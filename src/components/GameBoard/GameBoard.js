@@ -1,31 +1,34 @@
-import React, { useState } from "react";
-
+import React from "react";
+import { connect } from "react-redux";
 import "./GameBoard.css";
 
 import RegularCell from "../Cell/RegularCell";
 import BorderCell from "../Cell/BorderCell";
 import CornerCell from "../Cell/CornerCell";
+import { clickCell } from "../../actions/gridActions"
+import { activatePlayer, disablePlayer } from "../../actions/playersAction"
 
-const GameBoard = ({ numberOfRows, numberOfColumns }) => {
-  let plyers = [
-    { _id: 100, nickName: "John wick", colour: "red", alive: true },
-    { _id: 101, nickName: "Death Stroke", colour: "green", alive: true }
-  ];
+const mapStateToProps = ({ grid, players }) => ({
+  grid,
+  players
+})
 
-  const [grid, setGrid] = useState([
-    [null, null, null],
-    [null, null, null],
-    [null, null, null]
-  ]);
+const GameBoard = ({ grid, players, dispatch }) => {
   const handleCellClick = (i, j) => () => {
-    let tempGrid = grid;
-    if (tempGrid[i][j]) {
-      tempGrid[i][j].activeBalls++;
-    } else {
-      tempGrid[i][j] = { activeBalls: 1 };
+    const currentPlayer = players.find(player => player?.active === true)
+    const nextPlayer = players.find(player => player?.turn === (currentPlayer?.turn + 1) % players.length)
+    if (grid[i][j] === null || grid[i][j].playerId === currentPlayer._id) {
+      dispatch(clickCell(i, j, currentPlayer._id))
+      dispatch(disablePlayer(currentPlayer?._id));
+      dispatch(activatePlayer(nextPlayer?._id))
     }
-    setGrid([...tempGrid]);
   };
+  const handleBlowCell = (i, j) => () => {
+    const currentPlayer = players.find(player => player?.active === true)
+    if (grid[i][j] === null || grid[i][j].playerId === currentPlayer._id) {
+      console.log(`Cell ${i} - ${j} BLOWS !!`)
+    }
+  }
   return (
     <div className="game-grid">
       <table>
@@ -36,23 +39,26 @@ const GameBoard = ({ numberOfRows, numberOfColumns }) => {
                 {row.map((column, j) => (
                   <td key={`game-board-column-${j}`}>
                     {[0, grid.length - 1].includes(i) &&
-                    [0, row.length - 1].includes(j) ? (
-                      <CornerCell
-                        cellState={grid[i][j]}
-                        cellClickHandler={handleCellClick(i, j)}
-                      ></CornerCell>
-                    ) : [0, grid.length - 1].includes(i) ||
                       [0, row.length - 1].includes(j) ? (
-                      <BorderCell
-                        cellState={grid[i][j]}
-                        cellClickHandler={handleCellClick(i, j)}
-                      ></BorderCell>
-                    ) : (
-                      <RegularCell
-                        cellState={grid[i][j]}
-                        cellClickHandler={handleCellClick(i, j)}
-                      ></RegularCell>
-                    )}
+                        <CornerCell
+                          cellState={grid[i][j]}
+                          cellClickHandler={handleCellClick(i, j)}
+                          blowCell={handleBlowCell(i, j)}
+                        ></CornerCell>
+                      ) : [0, grid.length - 1].includes(i) ||
+                        [0, row.length - 1].includes(j) ? (
+                          <BorderCell
+                            cellState={grid[i][j]}
+                            cellClickHandler={handleCellClick(i, j)}
+                            blowCell={handleBlowCell(i, j)}
+                          ></BorderCell>
+                        ) : (
+                          <RegularCell
+                            cellState={grid[i][j]}
+                            cellClickHandler={handleCellClick(i, j)}
+                            blowCell={handleBlowCell(i, j)}
+                          ></RegularCell>
+                        )}
                   </td>
                 ))}
               </tr>
@@ -63,4 +69,4 @@ const GameBoard = ({ numberOfRows, numberOfColumns }) => {
     </div>
   );
 };
-export default GameBoard;
+export default connect(mapStateToProps)(GameBoard);
