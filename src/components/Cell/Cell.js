@@ -1,7 +1,7 @@
 import React from "react";
 import "./Cell.css";
 
-const Cell = ({ children, color,  cellClickHandler }) => {
+const Cell = ({ children, color, cellClickHandler }) => {
   const cellStyle = {
     border: `1px solid ${color}`
   };

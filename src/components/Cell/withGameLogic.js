@@ -1,32 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import React, { useCallback } from "react";
+import { useSelector } from "react-redux";
 
+const witthGameLogic = WrappedComponent => ({
+  cellState,
+  cellClickHandler,
+  blowCell,
+  ...passThroughProps
+}) => {
+  const currentPlayer = useSelector(state =>
+    state.players.find(player => player.active === true)
+  );
+  const possedPlayer = useSelector(state =>
+    state.players.find(player => player._id === cellState?.playerId)
+  );
 
-const mapStateToProps = ({ players }) => ({
-    players
-})
+  const memoizedCellStateHandler = useCallback(() => {
+    cellClickHandler();
+  }, [cellClickHandler]);
 
-const witthGameLogic = (WrappedComponent, CELL_CAPACITY) => ({ cellState, players, cellClickHandler, blowCell, ...passThroughProps }) => {
-    const [possedPlayer, setPossedPlayer] = useState();
-    const [currentPlayer, setCurrentPlayer] = useState()
-    useEffect(() => {
-        const possedPlayer = players.find(player => player._id === cellState?.playerId)
-        setPossedPlayer(possedPlayer)
-    }, [players, cellState])
-
-    useEffect(() => {
-        const currentPlayer = players.find(player => player.active === true)
-        setCurrentPlayer(currentPlayer)
-    }, [players])
-    const handleCellClick = () => {
-        cellState ? cellState.activeBalls < CELL_CAPACITY ? cellClickHandler() : blowCell() : cellClickHandler();
-    }
-    return (
-        <WrappedComponent currentPlayer={currentPlayer} possedPlayer={possedPlayer} handleCellClick={handleCellClick} cellState={cellState}{...passThroughProps} />
-    )
-}
-export default compose(
-    connect(mapStateToProps),
-    witthGameLogic
-);
+  return (
+    <WrappedComponent
+      currentPlayer={currentPlayer}
+      possedPlayer={possedPlayer}
+      handleCellStateChange={memoizedCellStateHandler}
+      cellState={cellState}
+      {...passThroughProps}
+    />
+  );
+};
+export default witthGameLogic;

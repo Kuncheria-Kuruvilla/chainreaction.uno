@@ -5,15 +5,19 @@ import BallState from "../../game_logic/ball_state";
 
 import withGameLogic from "./withGameLogic";
 
-const CELL_CAPACITY = 1
-const CornerCell = ({ cellState, currentPlayer, possedPlayer, handleCellClick }) => {
+const CornerCell = ({
+  cellState,
+  currentPlayer,
+  possedPlayer,
+  handleCellStateChange
+}) => {
   const ballStyle1 = {
     top: "5px",
     left: "3px"
   };
 
   return (
-    <Cell cellClickHandler={handleCellClick} color={currentPlayer?.color}>
+    <Cell cellClickHandler={handleCellStateChange} color={currentPlayer?.color}>
       <Ball
         color={possedPlayer?.color}
         alignment={ballStyle1}
@@ -25,4 +29,4 @@ const CornerCell = ({ cellState, currentPlayer, possedPlayer, handleCellClick })
   );
 };
 
-export default withGameLogic(CornerCell, CELL_CAPACITY);
+export default withGameLogic(CornerCell);
