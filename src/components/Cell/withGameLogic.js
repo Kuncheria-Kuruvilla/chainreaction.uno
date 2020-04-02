@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 
-const witthGameLogic = WrappedComponent => ({
+const withGameLogic = WrappedComponent => ({
   cellState,
   cellClickHandler,
   blowCell,
@@ -28,4 +28,4 @@ const witthGameLogic = WrappedComponent => ({
     />
   );
 };
-export default witthGameLogic;
+export default withGameLogic;

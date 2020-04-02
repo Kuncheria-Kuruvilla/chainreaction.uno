@@ -37,7 +37,15 @@ export const activatePlayer = id => ({
   id
 });
 
+export const activateNextPlayer = () => ({
+  type: "ACTIVATE_NEXT_PLAYER"
+});
+
 export const killPlayer = id => ({
   type: "KILL_PLAYER",
   id
 });
+
+export const reviveAllPlayers = () => ({
+  type: "REVIVE_ALL_PLAYERS"
+})
