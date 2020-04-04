@@ -1,3 +1,4 @@
+#Workflow for build and deploy to fire base hosting
 name: Build and Deploy to Firebase
 on:
   push:
