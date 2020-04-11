@@ -1,51 +1,111 @@
-/*---------------------------------------*/
-//To be changed with UUID or id generated at database layer
-let playerId = 0;
+import { playgroundsRef } from '../config/firebase.database';
 
-//Find better colors
-const color = [
-  "red",
-  "green",
-  "blue",
-  "gold",
-  "teal",
-  "purple",
-  "hotpink",
-  "aqua"
-];
+export const fetchAllPlayers = () => async (dispatch) => {
+  const playgroundId = sessionStorage.getItem('playgroundId');
+  playgroundsRef
+    .child(`${playgroundId}`)
+    .child(`players`)
+    .on('value', (snapshot) => {
+      var playersList = [];
+      for (var playerKey in snapshot.val()) {
+        playersList.push(snapshot.val()[playerKey]);
+      }
+      dispatch(setAllPlayers(playersList));
 
-//Verify logic for player turn
-let playTurn = 0;
-/*---------------------------------------*/
-export const addPlayer = nickname => ({
-  type: "ADD_PLAYER",
-  _id: playerId,
-  color: color[playerId++],
-  nickname: nickname,
-  turn: playTurn,
-  active: playTurn++ === 0 ? true : false, // true if it's his turn
-  live: true //false if he dies playing or gets bitten by a zombie
+      if (
+        playersList.filter((player) => player.active).length <= 0 &&
+        playersList.filter((player) => player.live).length > 1
+      ) {
+        const updateObj = {};
+        const firstLivePlayer = playersList.find((player) => player.live);
+        updateObj[
+          `/${playgroundId}/players/${firstLivePlayer._id}/active`
+        ] = true;
+        playgroundsRef.update(updateObj);
+      }
+    });
+};
+
+export const addPlayer = (
+  playgroundId,
+  nickname,
+  color,
+  host = false
+) => async (dispatch) =>
+  new Promise((resolve, reject) => {
+    const playerId = playgroundsRef.child(`${playgroundId}/players`).push().key;
+    playgroundsRef
+      .child(`${playgroundId}/players`)
+      .once('value')
+      .then((snapshot) => {
+        const playerUpdateObj = {};
+        playerUpdateObj[`/${playgroundId}/players/${playerId}`] = {
+          _id: playerId,
+          color: color,
+          nickname: nickname,
+          active: host ? true : false,
+          live: true,
+        };
+        playgroundsRef.update(playerUpdateObj);
+
+        playgroundsRef
+          .child(`/${playgroundId}`)
+          .child(`/players`)
+          .child(`/${playerId}`)
+          .onDisconnect()
+          .update({ live: false, active: false });
+
+        resolve(playerId);
+      });
+  });
+
+export const activateNextPlayer = (playgroundId) => async (dispatch) =>
+  playgroundsRef
+    .child(`${playgroundId}/players`)
+    .orderByKey()
+    .once('value')
+    .then((snapshot) => {
+      debugger;
+      var players = [];
+      for (var key in snapshot.val()) {
+        players.push(snapshot.val()[key]);
+      }
+      const livePlayers = players.filter((player) => player.live);
+      const currentPlayer = livePlayers.find(
+        (player) => player?.active === true
+      );
+      const nextPlayer =
+        livePlayers[
+          (livePlayers.indexOf(currentPlayer) + 1) % livePlayers.length
+        ];
+      const playerUpdateObj = {};
+      playerUpdateObj[
+        `/${playgroundId}/players/${currentPlayer?._id}/active`
+      ] = false;
+      playerUpdateObj[
+        `/${playgroundId}/players/${nextPlayer?._id}/active`
+      ] = true;
+      return playgroundsRef.update(playerUpdateObj);
+    });
+
+export const killPlayer = (playgroundId, playerId) => async (dispatch) =>
+  playgroundsRef
+    .child(`${playgroundId}/players`)
+    .once('value')
+    .then((snapshot) => {
+      var players = [];
+      for (var key in snapshot.val()) {
+        players.push(snapshot.val()[key]);
+      }
+      const playerTobeKilled = players.find(({ _id }) => _id === playerId);
+      const playerUpdateObj = {};
+      playerUpdateObj[
+        `/${playgroundId}/players/${playerTobeKilled._id}/live`
+      ] = false;
+      return playgroundsRef.update(playerUpdateObj);
+    });
+
+export const setAllPlayers = (playersList) => ({
+  type: 'SET_ALL_PLAYERS',
+  playersList,
 });
-
-export const disablePlayer = id => ({
-  type: "DISABLE_PLAYER",
-  id
-});
-
-export const activatePlayer = id => ({
-  type: "ACTIVATE_PLAYER",
-  id
-});
-
-export const activateNextPlayer = () => ({
-  type: "ACTIVATE_NEXT_PLAYER"
-});
-
-export const killPlayer = id => ({
-  type: "KILL_PLAYER",
-  id
-});
-
-export const reviveAllPlayers = () => ({
-  type: "REVIVE_ALL_PLAYERS"
-})

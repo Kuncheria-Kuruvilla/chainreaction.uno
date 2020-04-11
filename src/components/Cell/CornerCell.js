@@ -1,19 +1,19 @@
-import React from "react";
-import Cell from "./Cell";
-import Ball from "../Ball/Ball";
-import BallState from "../../game_logic/ball_state";
+import React from 'react';
+import Cell from './Cell';
+import Ball from '../Ball/Ball';
+import BallState from '../../game_logic/ball_state';
 
-import withGameLogic from "./withGameLogic";
+import withGameLogic from './withGameLogic';
 
 const CornerCell = ({
   cellState,
   currentPlayer,
   possedPlayer,
-  handleCellStateChange
+  handleCellStateChange,
 }) => {
   const ballStyle1 = {
-    top: "5px",
-    left: "3px"
+    top: '5px',
+    left: '3px',
   };
 
   return (

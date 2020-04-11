@@ -1,17 +1,17 @@
-import React, { useCallback } from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
-const withGameLogic = WrappedComponent => ({
+const withGameLogic = (WrappedComponent) => ({
   cellState,
   cellClickHandler,
   blowCell,
   ...passThroughProps
 }) => {
-  const currentPlayer = useSelector(state =>
-    state.players.find(player => player.active === true)
+  const currentPlayer = useSelector((state) =>
+    state.players.find((player) => player.active === true)
   );
-  const possedPlayer = useSelector(state =>
-    state.players.find(player => player._id === cellState?.playerId)
+  const possedPlayer = useSelector((state) =>
+    state.players.find((player) => player._id === cellState?.playerId)
   );
 
   const memoizedCellStateHandler = useCallback(() => {

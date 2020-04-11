@@ -1,9 +1,9 @@
-import React from "react";
-import "./Cell.css";
+import React from 'react';
+import './Cell.css';
 
 const Cell = ({ children, color, cellClickHandler }) => {
   const cellStyle = {
-    border: `1px solid ${color}`
+    border: `1px solid ${color}`,
   };
   return (
     <div className="cell" style={cellStyle} onClick={cellClickHandler}>

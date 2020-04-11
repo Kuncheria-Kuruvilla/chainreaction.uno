@@ -4,28 +4,28 @@ export const getAdjacentCellCoordinates = (x, y, nRows, nCols) => {
   if (x > 0) {
     cells.push({
       x: x - 1,
-      y
+      y,
     });
   }
 
   if (x < nRows - 1) {
     cells.push({
       x: x + 1,
-      y
+      y,
     });
   }
 
   if (y > 0) {
     cells.push({
       x,
-      y: y - 1
+      y: y - 1,
     });
   }
 
   if (y < nCols - 1) {
     cells.push({
       x,
-      y: y + 1
+      y: y + 1,
     });
   }
 
