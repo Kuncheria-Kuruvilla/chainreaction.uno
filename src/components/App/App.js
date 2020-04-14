@@ -6,17 +6,19 @@ import reduxThunk from 'redux-thunk';
 import GameBoard from '../GameBoard/GameBoard';
 import rootReducer from '../../reducers';
 import './App.css';
-import GameOptions from '../GameOptions/GameOptions';
 
 function App() {
   const store = createStore(
     rootReducer,
     {},
-    compose(applyMiddleware(reduxThunk))
+    compose(
+      applyMiddleware(reduxThunk),
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
   );
   return (
     <Provider store={store}>
-      <GameOptions />
       <GameBoard />
     </Provider>
   );

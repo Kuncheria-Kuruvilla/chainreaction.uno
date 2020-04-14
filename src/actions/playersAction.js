@@ -1,4 +1,5 @@
 import { playgroundsRef } from '../config/firebase.database';
+import { COLOR } from '../game_logic/constants';
 
 export const fetchAllPlayers = () => async (dispatch) => {
   const playgroundId = sessionStorage.getItem('playgroundId');
@@ -26,12 +27,9 @@ export const fetchAllPlayers = () => async (dispatch) => {
     });
 };
 
-export const addPlayer = (
-  playgroundId,
-  nickname,
-  color,
-  host = false
-) => async (dispatch) =>
+export const addPlayer = (playgroundId, nickname, host = false) => async (
+  dispatch
+) =>
   new Promise((resolve, reject) => {
     const playerId = playgroundsRef.child(`${playgroundId}/players`).push().key;
     playgroundsRef
@@ -41,7 +39,7 @@ export const addPlayer = (
         const playerUpdateObj = {};
         playerUpdateObj[`/${playgroundId}/players/${playerId}`] = {
           _id: playerId,
-          color: color,
+          color: COLOR[snapshot.numChildren()],
           nickname: nickname,
           active: host ? true : false,
           live: true,

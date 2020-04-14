@@ -1,0 +1,21 @@
+.player_color_indicator {
+  margin: 2px;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+}
+.player-lisr-container {
+  /* display: grid; */
+  /* grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto auto; */
+}
+.player-details-grid {
+  display: grid;
+  grid-template-columns: 25px auto;
+  grid-template-rows: auto;
+  justify-items: left;
+  align-items: center;
+}
+.nickname {
+  margin: 0px;
+}

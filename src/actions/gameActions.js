@@ -11,8 +11,9 @@ export const hostGameAction = () => async (dispatch) => {
 
     const accessCode =
       '' +
-      new Date().getMinutes() +
-      Math.floor(new Date().getMilliseconds() % 10) +
+      Math.floor(Math.random() * 10) +
+      Math.floor(Math.random() * 10) +
+      Math.floor(Math.random() * 10) +
       Math.floor(Math.random() * 10);
     var mapItem = {};
     mapItem[accessCode] = newGameKey;

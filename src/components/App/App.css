@@ -1,0 +1,38 @@
+body {
+  background-color: black;
+}
+.ps-font-x-small {
+  font-family: 'Press Start 2P', cursive;
+  font-size: x-small;
+}
+.ps-font-small {
+  font-family: 'Press Start 2P', cursive;
+  font-size: small;
+}
+.ps-font-medium {
+  font-family: 'Press Start 2P', cursive;
+  font-size: medium;
+}
+
+.back-button {
+  margin-right: 10px;
+}
+
+.btn,
+.inpt {
+  margin: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.red-solid-btn {
+  color: white;
+  background-color: red;
+  border-color: red;
+}
+
+.red-border-btn,
+.red-border-inpt {
+  color: white;
+  background-color: transparent;
+  border-color: red;
+}

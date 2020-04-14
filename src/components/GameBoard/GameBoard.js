@@ -10,6 +10,7 @@ import { getAdjacentCellCoordinates } from '../../game_logic/utils';
 import { useSelector, useDispatch } from 'react-redux';
 import GameState from '../../game_logic/game_state';
 import { endGame, setWinner } from '../../actions/gameActions';
+import GameOptions from '../GameOptions/GameOptions';
 
 const GameBoard = () => {
   const grid = useSelector((state) => state.grid);
@@ -158,7 +159,7 @@ const GameBoard = () => {
   }, [players, dispatch, gameEnd]);
 
   return (
-    game.state === GameState.GAME_ON && (
+    <React.Fragment>
       <div className="game-grid">
         <table>
           <tbody>
@@ -193,7 +194,8 @@ const GameBoard = () => {
           </tbody>
         </table>
       </div>
-    )
+      <GameOptions show={game.state !== GameState.GAME_ON}></GameOptions>
+    </React.Fragment>
   );
 };
 export default GameBoard;
