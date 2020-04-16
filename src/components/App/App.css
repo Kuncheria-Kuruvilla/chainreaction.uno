@@ -4,16 +4,24 @@ body {
 .ps-font-x-small {
   font-family: 'Press Start 2P', cursive;
   font-size: x-small;
+  color: white;
 }
 .ps-font-small {
   font-family: 'Press Start 2P', cursive;
   font-size: small;
+  color: white;
 }
 .ps-font-medium {
   font-family: 'Press Start 2P', cursive;
   font-size: medium;
+  color: white;
 }
 
+.ps-font-x-large {
+  font-family: 'Press Start 2P', cursive;
+  font-size: x-large;
+  color: white;
+}
 .back-button {
   margin-right: 10px;
 }
@@ -35,4 +43,12 @@ body {
   color: white;
   background-color: transparent;
   border-color: red;
+}
+
+.red-shadow {
+  text-shadow: 2px 2px red;
+}
+
+.text-center {
+  text-align: center;
 }

@@ -63,7 +63,6 @@ export const activateNextPlayer = (playgroundId) => async (dispatch) =>
     .orderByKey()
     .once('value')
     .then((snapshot) => {
-      debugger;
       var players = [];
       for (var key in snapshot.val()) {
         players.push(snapshot.val()[key]);

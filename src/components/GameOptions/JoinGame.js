@@ -5,12 +5,13 @@ import { joinGameAction, fetchGame } from '../../actions/gameActions';
 import { fetchAllPlayers, addPlayer } from '../../actions/playersAction';
 import { fetchGrid } from '../../actions/gridActions';
 import PlayerList4x2 from '../PlayerList/PlayerList4x2';
+import { PLAYERNAMES } from '../../game_logic/constants';
 
-const JoinGame = ({ onGameJoined }) => {
+const JoinGame = () => {
   const [isJoined, setisJoined] = useState(false);
   const [gameCode, setgameCode] = useState('');
   const [nickname, setnickname] = useState(
-    'guest' + Math.floor(Math.random() * 1001)
+    PLAYERNAMES[Math.floor(Math.random() * PLAYERNAMES.length)]
   );
 
   const dispatch = useDispatch();
@@ -30,7 +31,6 @@ const JoinGame = ({ onGameJoined }) => {
         dispatch(fetchGame());
         dispatch(fetchGrid());
         setisJoined(true);
-        onGameJoined();
       })
       .catch((error) => console.log(error));
   };
@@ -43,6 +43,7 @@ const JoinGame = ({ onGameJoined }) => {
           </td>
           <td>
             <input
+              autoFocus
               type="text"
               id="game-code"
               value={gameCode}
@@ -76,7 +77,7 @@ const JoinGame = ({ onGameJoined }) => {
     </table>
   ) : (
     <React.Fragment>
-      <p>{gameCode}</p>
+      <p>Waiting for others to join...</p>
       <PlayerList4x2 />
     </React.Fragment>
   );

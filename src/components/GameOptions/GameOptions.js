@@ -1,59 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 
 import HostGame from './HostGame';
 import JoinGame from './JoinGame';
 import './GameOptions.css';
+import { useDispatch } from 'react-redux';
+import { setGame } from '../../actions/gameActions';
+import { setAllPlayers, killPlayer } from '../../actions/playersAction';
+import { setGrid } from '../../actions/gridActions';
+import GameState from '../../game_logic/game_state';
+import CloseButton from './CloseButton';
 
-const BackButton = ({ onBackButtonClicked }) => {
-  return (
-    <svg
-      onClick={onBackButtonClicked}
-      className="bi bi-arrow-left ps-font-medium"
-      width="1em"
-      height="1em"
-      viewBox="0 0 16 16"
-      fill="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fillRule="evenodd"
-        d="M5.854 4.646a.5.5 0 010 .708L3.207 8l2.647 2.646a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z"
-        clipRule="evenodd"
-      />
-      <path
-        fillRule="evenodd"
-        d="M2.5 8a.5.5 0 01.5-.5h10.5a.5.5 0 010 1H3a.5.5 0 01-.5-.5z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-};
 const GameOptions = ({ show }) => {
   const [playerOption, setplayerOption] = useState();
-  const [gameHosted, setgameHosted] = useState(false);
-  const [gameJoined, setgameJoined] = useState(false);
+  const dispatch = useDispatch();
 
-  const shouldDisplayBackButton = () => {
-    return playerOption && !(gameHosted || gameJoined);
+  const shouldDisplayCloseButton = () => {
+    return playerOption;
   };
+  const handleOnClose = () => {
+    if (
+      sessionStorage.getItem('playgroundId') &&
+      sessionStorage.getItem('playerId')
+    )
+      dispatch(
+        killPlayer(
+          sessionStorage.getItem('playgroundId'),
+          sessionStorage.getItem('playerId')
+        )
+      );
+    sessionStorage.clear('playgroundId');
+    sessionStorage.clear('playerId');
+    setplayerOption();
+    dispatch(setGame({ state: GameState.PRE_INCEPTION }));
+    dispatch(setAllPlayers([]));
+    dispatch(setGrid([]));
+  };
+  useEffect(() => {
+    setplayerOption();
+  }, [show]);
   return (
     <Modal
       show={show}
       aria-labelledby="contained-modal-title-vcenter"
       centered
       className="ps-font-medium"
+      backdropClassName="modal-backdrop-oppaque"
     >
-      {shouldDisplayBackButton() && (
+      {shouldDisplayCloseButton() && (
         <Modal.Header>
-          <BackButton onBackButtonClicked={() => setplayerOption()} />
+          <CloseButton onCloseButtonClick={handleOnClose} />
         </Modal.Header>
       )}
+
       <Modal.Body>
         {playerOption === 'host_game' ? (
-          <HostGame onGameHosted={() => setgameHosted(true)}></HostGame>
+          <HostGame />
         ) : playerOption === 'join_game' ? (
-          <JoinGame onGameJoined={() => setgameJoined(true)}></JoinGame>
+          <JoinGame />
         ) : (
           <div className="btn-containers">
             <button

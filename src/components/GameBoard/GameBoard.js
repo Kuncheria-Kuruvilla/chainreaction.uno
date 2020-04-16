@@ -11,6 +11,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import GameState from '../../game_logic/game_state';
 import { endGame, setWinner } from '../../actions/gameActions';
 import GameOptions from '../GameOptions/GameOptions';
+import GameOver from '../GameOptions/GameOver';
+import PlayerList2x4 from '../PlayerList/PlayerList2x4';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const GameBoard = () => {
   const grid = useSelector((state) => state.grid);
@@ -39,7 +42,6 @@ const GameBoard = () => {
         gameStateRegistry[gameStateRegistry.length - 1][i][j]?.activeBalls <
           gameStateRegistry[gameStateRegistry.length - 1][i][j].cellCapacity)
     ) {
-      console.log('Cell ', i, '-', j + ' clicked');
       dispatch(clickCell(i, j, currentPlayerId));
       let newGrid =
         gameStateRegistry.length > 0
@@ -67,7 +69,6 @@ const GameBoard = () => {
             );
       gameStateRegistry.push(newGrid);
     } else {
-      console.log('Cell ', i, '-', j + ' blown!!');
       dispatch(blowCell(i, j));
       let newGrid =
         gameStateRegistry.length > 0
@@ -147,11 +148,10 @@ const GameBoard = () => {
   };
   useEffect(() => {
     if (gameEnd()) {
-      console.log(players.find((player) => player.live)?.nickname, 'wins !!!');
       dispatch(
         setWinner(
           sessionStorage.getItem('playgroundId'),
-          players.find((player) => player.live)?._id
+          players.find((player) => player.live)
         )
       );
       dispatch(endGame(sessionStorage.getItem('playgroundId')));
@@ -159,43 +159,54 @@ const GameBoard = () => {
   }, [players, dispatch, gameEnd]);
 
   return (
-    <React.Fragment>
-      <div className="game-grid">
-        <table>
-          <tbody>
-            {grid.map((row, i) => {
-              return (
-                <tr key={`game-board-row-${i}`}>
-                  {row.map((column, j) => (
-                    <td key={`game-board-column-${j}`}>
-                      {[0, grid.length - 1].includes(i) &&
-                      [0, row.length - 1].includes(j) ? (
-                        <CornerCell
-                          cellState={grid[i][j]}
-                          cellClickHandler={handleCellClick(i, j)}
-                        ></CornerCell>
-                      ) : [0, grid.length - 1].includes(i) ||
+    <Container>
+      <Row>
+        <Col className="player-list-container">
+          <PlayerList2x4 />
+        </Col>
+      </Row>
+      <Row>
+        <Col className="game-grid-container">
+          <table className="game-grid">
+            <tbody>
+              {grid.map((row, i) => {
+                return (
+                  <tr key={`game-board-row-${i}`}>
+                    {row.map((column, j) => (
+                      <td key={`game-board-column-${j}`}>
+                        {[0, grid.length - 1].includes(i) &&
                         [0, row.length - 1].includes(j) ? (
-                        <BorderCell
-                          cellState={grid[i][j]}
-                          cellClickHandler={handleCellClick(i, j)}
-                        ></BorderCell>
-                      ) : (
-                        <RegularCell
-                          cellState={grid[i][j]}
-                          cellClickHandler={handleCellClick(i, j)}
-                        ></RegularCell>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-      <GameOptions show={game.state !== GameState.GAME_ON}></GameOptions>
-    </React.Fragment>
+                          <CornerCell
+                            cellState={grid[i][j]}
+                            cellClickHandler={handleCellClick(i, j)}
+                          ></CornerCell>
+                        ) : [0, grid.length - 1].includes(i) ||
+                          [0, row.length - 1].includes(j) ? (
+                          <BorderCell
+                            cellState={grid[i][j]}
+                            cellClickHandler={handleCellClick(i, j)}
+                          ></BorderCell>
+                        ) : (
+                          <RegularCell
+                            cellState={grid[i][j]}
+                            cellClickHandler={handleCellClick(i, j)}
+                          ></RegularCell>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Col>
+      </Row>
+      <GameOptions show={game.state === GameState.PRE_INCEPTION}></GameOptions>
+      <GameOver
+        show={game.state === GameState.GAME_OVER}
+        winnerNickname={game?.winner?.nickname}
+      ></GameOver>
+    </Container>
   );
 };
 export default GameBoard;

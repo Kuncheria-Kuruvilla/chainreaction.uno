@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addPlayer, fetchAllPlayers } from '../../actions/playersAction';
 import {
   hostGameAction,
@@ -8,16 +8,18 @@ import {
 } from '../../actions/gameActions';
 import { initGrid, fetchGrid } from '../../actions/gridActions';
 import PlayerList4x2 from '../PlayerList/PlayerList4x2';
+import './HostGame.css';
+import { PLAYERNAMES } from '../../game_logic/constants';
 
-const HostGame = ({ onGameHosted }) => {
+const HostGame = () => {
   const [isHosted, setisHosted] = useState(false);
   const [rows, setrows] = useState(6);
   const [colums, setcolums] = useState(10);
   const [nickname, setnickname] = useState(
-    'guest' + Math.floor(Math.random() * 1001)
+    PLAYERNAMES[Math.floor(Math.random() * PLAYERNAMES.length)]
   );
   const [gameCode, setGameCode] = useState();
-
+  const players = useSelector((state) => state.players);
   const dispatch = useDispatch();
 
   const hostGame = () => {
@@ -26,7 +28,6 @@ const HostGame = ({ onGameHosted }) => {
       .then((gameIdentifier) => {
         sessionStorage.setItem('playgroundId', gameIdentifier.playgroundId);
         setGameCode(gameIdentifier.code);
-        onGameHosted();
         return Promise.resolve(gameIdentifier.playgroundId);
       })
       .then((playgroundId) => dispatch(addPlayer(playgroundId, nickname, true)))
@@ -53,6 +54,7 @@ const HostGame = ({ onGameHosted }) => {
           </td>
           <td>
             <input
+              autoFocus
               type="text"
               id="nickname"
               className="inpt red-border-inpt"
@@ -100,11 +102,19 @@ const HostGame = ({ onGameHosted }) => {
     </table>
   ) : (
     <React.Fragment>
-      <p>{gameCode}</p>
+      <p className="text-center">Share code with your friends</p>
+      <p className="text-center ps-font-x-large red-shadow">{gameCode}</p>
       <PlayerList4x2 />
-      <button onClick={startGame} className="btn red-border-btn">
-        Start Game
-      </button>
+      <div className="start-gmae-btn-container">
+        <button
+          onClick={startGame}
+          className="btn red-border-btn"
+          disabled={players.length < 2}
+          align="center"
+        >
+          Start Game
+        </button>
+      </div>
     </React.Fragment>
   );
 };

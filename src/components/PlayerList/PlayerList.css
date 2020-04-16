@@ -4,18 +4,31 @@
   height: 15px;
   width: 15px;
 }
-.player-lisr-container {
-  /* display: grid; */
-  /* grid-template-columns: auto auto auto auto;
-  grid-template-rows: auto auto; */
-}
 .player-details-grid {
   display: grid;
+  margin: 10px;
   grid-template-columns: 25px auto;
   grid-template-rows: auto;
   justify-items: left;
   align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .nickname {
   margin: 0px;
+}
+
+.dead-player-ball {
+  filter: grayscale(0.7);
+}
+
+.dead-player-name {
+  color: grey !important;
+}
+
+.active-player {
+  border-style: solid;
+  border-color: red;
+  border-width: thin;
 }

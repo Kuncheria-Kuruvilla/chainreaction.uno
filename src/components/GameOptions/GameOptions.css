@@ -10,3 +10,6 @@
   width: fit-content;
   margin: auto;
 }
+.modal-backdrop-oppaque {
+  opacity: 1 !important;
+}
