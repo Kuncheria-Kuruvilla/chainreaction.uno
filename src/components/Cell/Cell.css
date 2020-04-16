@@ -7,6 +7,44 @@
   vertical-align: bottom;
 }
 
+.cell-animate {
+  animation: pulse 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) 1;
+}
+@keyframes pulse {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: lightblue;
+    opacity: 1;
+  }
+  100% {
+    background-color: black;
+  }
+}
 .ball-wrapper {
   position: relative;
+  height: inherit;
+}
+.rotate-1x {
+  animation: rotation 1.5s infinite linear;
+}
+
+.rotate-2x {
+  animation: rotation 1s infinite linear;
+}
+
+.rotate-3x {
+  animation: rotation 0.8s infinite linear;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

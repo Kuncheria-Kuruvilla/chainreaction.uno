@@ -12,7 +12,7 @@ const CornerCell = ({
   handleCellStateChange,
 }) => {
   const ballStyle1 = {
-    top: '5px',
+    top: '-5px',
     left: '3px',
   };
 

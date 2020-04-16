@@ -35,7 +35,7 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
-    <title>React App</title>
+    <title>Chainreaction</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -108,5 +108,28 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: 'AIzaSyC9PalV19CiyyxXeHiBpEiaVAgf4rfDxhY',
+        authDomain: 'chainreaction-57435.firebaseapp.com',
+        databaseURL: 'https://chainreaction-57435.firebaseio.com',
+        projectId: 'chainreaction-57435',
+        storageBucket: 'chainreaction-57435.appspot.com',
+        messagingSenderId: '444688755981',
+        appId: '1:444688755981:web:70a7d6e207316e0b5cd444',
+        measurementId: 'G-WSKMBXZY9Y',
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
   </body>
 </html>

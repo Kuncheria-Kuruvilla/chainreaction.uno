@@ -12,10 +12,10 @@ function App() {
     rootReducer,
     {},
     compose(
-      applyMiddleware(reduxThunk),
-      process.env.NODE_ENV !== 'production' &&
-        window.__REDUX_DEVTOOLS_EXTENSION__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION__()
+      applyMiddleware(reduxThunk)
+      // process.env.NODE_ENV !== 'production' &&
+      //   window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      //   window.__REDUX_DEVTOOLS_EXTENSION__()
     )
   );
   return (

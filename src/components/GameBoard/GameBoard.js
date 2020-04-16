@@ -42,7 +42,7 @@ const GameBoard = () => {
         gameStateRegistry[gameStateRegistry.length - 1][i][j]?.activeBalls <
           gameStateRegistry[gameStateRegistry.length - 1][i][j].cellCapacity)
     ) {
-      dispatch(clickCell(i, j, currentPlayerId));
+      setTimeout(() => dispatch(clickCell(i, j, currentPlayerId)), 100);
       let newGrid =
         gameStateRegistry.length > 0
           ? gameStateRegistry[gameStateRegistry.length - 1].map((row, iter) =>
@@ -69,7 +69,7 @@ const GameBoard = () => {
             );
       gameStateRegistry.push(newGrid);
     } else {
-      dispatch(blowCell(i, j));
+      setTimeout(() => dispatch(blowCell(i, j)), 100);
       let newGrid =
         gameStateRegistry.length > 0
           ? gameStateRegistry[gameStateRegistry.length - 1].map((row, iter) =>

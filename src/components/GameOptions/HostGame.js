@@ -104,6 +104,7 @@ const HostGame = () => {
     <React.Fragment>
       <p className="text-center">Share code with your friends</p>
       <p className="text-center ps-font-x-large red-shadow">{gameCode}</p>
+      <p className="text-center">Press start once your friends haeve joined</p>
       <PlayerList4x2 />
       <div className="start-gmae-btn-container">
         <button
