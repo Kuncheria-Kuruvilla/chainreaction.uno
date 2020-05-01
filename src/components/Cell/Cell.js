@@ -17,14 +17,10 @@ const Cell = ({ children, color, cellClickHandler }) => {
 
   useEffect(() => {
     const ballStatesChanged = () => {
-      const ballStates = children.length
-        ? children.map((child) => child.props.state)
-        : [children.props.state];
-
       return (
         (
           previousBallState &&
-          ballStates.filter((state, i) => state !== previousBallState[i])
+          ballStateArray.filter((state, i) => state !== previousBallState[i])
         )?.length > 0
       );
     };
@@ -32,7 +28,7 @@ const Cell = ({ children, color, cellClickHandler }) => {
       setcellClasses('cell cell-animate');
       setTimeout(() => setcellClasses('cell'), 1200);
     }
-  }, [children, previousBallState, ballStateArray]);
+  }, [previousBallState, ballStateArray]);
 
   useEffect(() => {
     setrotationSpeed(
