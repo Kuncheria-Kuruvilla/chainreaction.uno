@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import './GameBoard.css';
 
 import RegularCell from '../Cell/RegularCell';
@@ -14,11 +14,17 @@ import GameOptions from '../GameOptions/GameOptions';
 import GameOver from '../GameOptions/GameOver';
 import PlayerList2x4 from '../PlayerList/PlayerList2x4';
 import { Container, Row, Col } from 'react-bootstrap';
+import { PLAYER_TIMEOUT } from '../../game_logic/constants';
+import CountDownTimer from './CountDownTimer';
 
 const GameBoard = () => {
   const grid = useSelector((state) => state.grid);
   const players = useSelector((state) => state.players);
   const game = useSelector((state) => state.game);
+  const currentPlayer = useSelector((state) =>
+    state.players.find((player) => player?.active === true)
+  );
+  const [timeLeft, settimeLeft] = useState(PLAYER_TIMEOUT);
 
   const dispatch = useDispatch();
 
@@ -30,6 +36,10 @@ const GameBoard = () => {
       players.filter((player) => player.live).length <= 1
     );
   }, [players, game.state]);
+
+  const iAmPlaying = useCallback(() => {
+    return currentPlayer?._id === sessionStorage.getItem('playerId');
+  }, [currentPlayer]);
 
   const startChainReaction = (i, j, currentPlayerId) => {
     if (gameStateRegistry.length <= 0) {
@@ -106,7 +116,6 @@ const GameBoard = () => {
   };
 
   const handleCellClick = (i, j) => () => {
-    const currentPlayer = players.find((player) => player?.active === true);
     if (
       game.state === GameState.GAME_ON &&
       currentPlayer?._id === sessionStorage.getItem('playerId')
@@ -158,6 +167,30 @@ const GameBoard = () => {
     }
   }, [players, dispatch, gameEnd]);
 
+  useEffect(() => {
+    let timer = null;
+    if (game.state === GameState.GAME_ON) {
+      timer = setInterval(() => {
+        settimeLeft(timeLeft - 100);
+        if (timeLeft <= 0) {
+          if (iAmPlaying()) {
+            dispatch(
+              activateNextPlayer(sessionStorage.getItem('playgroundId'))
+            );
+          }
+          clearInterval(timer);
+        }
+      }, 100);
+    }
+    return () => {
+      clearInterval(timer);
+    };
+  }, [players, dispatch, game.state, timeLeft, iAmPlaying]);
+
+  useEffect(() => {
+    settimeLeft(PLAYER_TIMEOUT);
+  }, [players]);
+
   return (
     <Container>
       <Row>
@@ -172,6 +205,19 @@ const GameBoard = () => {
               {grid.map((row, i) => {
                 return (
                   <tr key={`game-board-row-${i}`}>
+                    {i === 0 && (
+                      <td rowSpan={grid.length}>
+                        <div className="countdown-timer-container">
+                          {(iAmPlaying() || true) && (
+                            <CountDownTimer
+                              now={(timeLeft / PLAYER_TIMEOUT) * 100}
+                              max={100}
+                              color={currentPlayer?.color}
+                            ></CountDownTimer>
+                          )}
+                        </div>
+                      </td>
+                    )}
                     {row.map((column, j) => (
                       <td key={`game-board-column-${j}`}>
                         {[0, grid.length - 1].includes(i) &&
@@ -194,6 +240,19 @@ const GameBoard = () => {
                         )}
                       </td>
                     ))}
+                    {i === 0 && (
+                      <td rowSpan={grid.length}>
+                        <div className="countdown-timer-container">
+                          {(iAmPlaying() || true) && (
+                            <CountDownTimer
+                              now={(timeLeft / PLAYER_TIMEOUT) * 100}
+                              max={100}
+                              color={currentPlayer?.color}
+                            ></CountDownTimer>
+                          )}
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 );
               })}

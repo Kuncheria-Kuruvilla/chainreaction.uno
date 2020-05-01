@@ -18,3 +18,8 @@
   border-color: white;
   border-width: thick;
 }
+
+.countdown-timer-container {
+  width: 60px;
+  padding-left: 20px;
+}
