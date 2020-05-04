@@ -10,40 +10,48 @@ const getCellCapacity = (i, j, nRows, nCols) => {
 };
 
 const initGrid = (state, { nRows, nColumns }) => {
-  let grid = [];
+  let newGrid = [];
   for (let i = 0; i < nRows; i++) {
     let col = [];
     for (let j = 0; j < nColumns; j++) {
       col.push({
         activeBalls: 0,
-        cellCapacity: getCellCapacity(i, j, nRows, nColumns)
+        cellCapacity: getCellCapacity(i, j, nRows, nColumns),
       });
     }
-    grid.push(col);
+    newGrid.push(col);
   }
-  return grid;
+  return newGrid;
 };
 
-const resetGrid = state => state.map(row => row.map(col => null));
+const resetGrid = (grid) =>
+  grid.map((row, i) =>
+    row.map((col, j) => {
+      return {
+        activeBalls: 0,
+        cellCapacity: getCellCapacity(i, j, grid.length, row.length),
+      };
+    })
+  );
 
-const setGrid = (state, { newGrid }) =>
-  newGrid?.map(row => row.map(col => col));
+const setGrid = (grid, { newGrid }) =>
+  newGrid?.map((row) => row.map((col) => col));
 
-const clickCell = (state, { x, y, playerId }) =>
-  state.map((row, i) =>
+const clickCell = (grid, { x, y, playerId }) =>
+  grid.map((row, i) =>
     row.map((col, j) =>
       x === i && y === j
         ? {
             ...col,
             activeBalls: col?.activeBalls ? ++col.activeBalls : 1,
-            playerId
+            playerId,
           }
         : col
     )
   );
 
-const blowCell = (state, { x, y }) =>
-  state.map((row, i) =>
+const blowCell = (grid, { x, y }) =>
+  grid.map((row, i) =>
     row.map((col, j) =>
       x === i && y === j
         ? ({ playerId, ...rest }) => ({ activeBalls: 0, ...rest })
@@ -51,20 +59,20 @@ const blowCell = (state, { x, y }) =>
     )
   );
 
-const grid = (state = [], action) => {
+const grid = (grid = [], action) => {
   switch (action.type) {
-    case "INIT_GRID":
-      return initGrid(state, action);
-    case "RESET_GRID":
-      return resetGrid(state, action);
-    case "SET_GRID":
-      return setGrid(state, action);
-    case "CLICK_CELL":
-      return clickCell(state, action);
-    case "BLOW_CELL":
-      return blowCell(state, action);
+    case 'INIT_GRID':
+      return initGrid(grid, action);
+    case 'RESET_GRID':
+      return resetGrid(grid, action);
+    case 'SET_GRID':
+      return setGrid(grid, action);
+    case 'CLICK_CELL':
+      return clickCell(grid, action);
+    case 'BLOW_CELL':
+      return blowCell(grid, action);
     default:
-      return state;
+      return grid;
   }
 };
 

@@ -1,7 +1,25 @@
+.game-grid {
+  margin-left: auto;
+  margin-right: auto;
+}
 .game-grid td {
   padding: 0;
 }
 
 .game-grid table {
   border-spacing: 0px;
+}
+.player-list-container,
+.game-grid-container {
+  margin-top: 10%;
+}
+.player-list-container {
+  border-style: double;
+  border-color: white;
+  border-width: thick;
+}
+
+.countdown-timer-container {
+  width: 60px;
+  padding-left: 20px;
 }

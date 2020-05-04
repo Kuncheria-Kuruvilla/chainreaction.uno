@@ -1,75 +1,82 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Modal } from 'react-bootstrap';
 
-import { initGrid, resetGrid } from "../../actions/gridActions";
-import { addPlayer, activatePlayer } from "../../actions/playersAction";
+import HostGame from './HostGame';
+import JoinGame from './JoinGame';
+import './GameOptions.css';
+import { useDispatch } from 'react-redux';
+import { setGame } from '../../actions/gameActions';
+import { setAllPlayers, killPlayer } from '../../actions/playersAction';
+import { setGrid } from '../../actions/gridActions';
+import GameState from '../../game_logic/game_state';
+import CloseButton from './CloseButton';
 
-function GameOptions() {
-  const [activeGame, setactiveGame] = useState(false);
-  const [rows, setrows] = useState(6);
-  const [colums, setcolums] = useState(10);
-  const players = useSelector(state => state.players);
+const GameOptions = ({ show }) => {
+  const [playerOption, setplayerOption] = useState();
   const dispatch = useDispatch();
 
-  const startGame = () => {
-    setactiveGame(true);
-    let plyerNames = ["John wick", "Slade Wilson"];
-    plyerNames.map(player => dispatch(addPlayer(player)));
-    const playerWithFirstTurn = players?.find(player => player.turn === 0);
-    dispatch(activatePlayer(playerWithFirstTurn?._id));
-    dispatch(initGrid(rows, colums));
+  const shouldDisplayCloseButton = () => {
+    return playerOption;
   };
-  const resetGame = () => {
-    const playerWithFirstTurn = players.find(player => player.turn === 0);
-    dispatch(activatePlayer(playerWithFirstTurn?._id));
-    dispatch(resetGrid());
+  const handleOnClose = () => {
+    if (
+      sessionStorage.getItem('playgroundId') &&
+      sessionStorage.getItem('playerId')
+    )
+      dispatch(
+        killPlayer(
+          sessionStorage.getItem('playgroundId'),
+          sessionStorage.getItem('playerId')
+        )
+      );
+    sessionStorage.clear('playgroundId');
+    sessionStorage.clear('playerId');
+    setplayerOption();
+    dispatch(setGame({ state: GameState.PRE_INCEPTION }));
+    dispatch(setAllPlayers([]));
+    dispatch(setGrid([]));
   };
-
+  useEffect(() => {
+    setplayerOption();
+  }, [show]);
   return (
-    <table>
-      <tbody>
-        {!activeGame ? (
-          <React.Fragment>
-            <tr>
-              <td>
-                <label htmlFor="number-of-rows">Rows</label>
-              </td>
-              <td>
-                <input
-                  type="number"
-                  id="number-of-rows"
-                  value={rows}
-                  onChange={e => setrows(e.target.value)}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="number-of-coloumns">Columns</label>
-              </td>
-              <td>
-                <input
-                  type="number"
-                  id="number-of-coloumns"
-                  value={colums}
-                  onChange={e => setcolums(e.target.value)}
-                />
-              </td>
-            </tr>
-          </React.Fragment>
-        ) : null}
-        <tr>
-          <td>
-            {!activeGame ? (
-              <button onClick={startGame}>Start Game</button>
-            ) : (
-              <button onClick={resetGame}>Reset Game</button>
-            )}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <Modal
+      show={show}
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      className="ps-font-medium"
+      backdropClassName="modal-backdrop-oppaque"
+    >
+      {shouldDisplayCloseButton() && (
+        <Modal.Header>
+          <CloseButton onCloseButtonClick={handleOnClose} />
+        </Modal.Header>
+      )}
+
+      <Modal.Body>
+        {playerOption === 'host_game' ? (
+          <HostGame />
+        ) : playerOption === 'join_game' ? (
+          <JoinGame />
+        ) : (
+          <div className="btn-containers">
+            <button
+              onClick={() => setplayerOption('host_game')}
+              className="btn red-border-btn"
+            >
+              Host Game
+            </button>
+            <button
+              onClick={() => setplayerOption('join_game')}
+              className="btn red-border-btn"
+            >
+              Join Game
+            </button>
+          </div>
+        )}
+      </Modal.Body>
+    </Modal>
   );
-}
+};
 
 export default GameOptions;

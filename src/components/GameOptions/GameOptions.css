@@ -1,0 +1,15 @@
+.modal-content {
+  background-color: black !important;
+  color: white !important;
+  border-color: red !important;
+}
+.modal-header {
+  border-color: transparent;
+}
+.btn-containers {
+  width: fit-content;
+  margin: auto;
+}
+.modal-backdrop-oppaque {
+  opacity: 1 !important;
+}

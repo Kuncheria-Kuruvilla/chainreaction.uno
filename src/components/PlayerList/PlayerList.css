@@ -1,0 +1,34 @@
+.player_color_indicator {
+  margin: 2px;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+}
+.player-details-grid {
+  display: grid;
+  margin: 10px;
+  grid-template-columns: 25px auto;
+  grid-template-rows: auto;
+  justify-items: left;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nickname {
+  margin: 0px;
+}
+
+.dead-player-ball {
+  filter: grayscale(0.7);
+}
+
+.dead-player-name {
+  color: grey !important;
+}
+
+.active-player {
+  border-style: solid;
+  border-color: red;
+  border-width: thin;
+}
