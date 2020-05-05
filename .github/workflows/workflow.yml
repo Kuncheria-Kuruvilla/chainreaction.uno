@@ -18,7 +18,7 @@ jobs:
         uses: finnp/create-file-action@master
         env:
           FILE_NAME : "public/example.md"
-          FILE_DATA : "ZWFzdGVyZWdnLWxvbAo="
+          FILE_DATA : "ZWFzdGVyZWdnLWxvbAo="+ ${{ secrets.test }}+""
       - name: Build
         run: REACT_APP_FIREBASE_APIKEY=${{ secrets.REACT_APP_FIREBASE_APIKEY }} REACT_APP_FIREBASE_AUTHDOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTHDOMAIN }} REACT_APP_FIREBASE_DBURL=${{ secrets.REACT_APP_FIREBASE_DBURL }} npm run build
       - name: Archive Production Artifact
