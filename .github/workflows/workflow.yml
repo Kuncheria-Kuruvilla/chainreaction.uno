@@ -16,11 +16,13 @@ jobs:
         run: npm install
       - name : Patch firebase.json with hosting.site
         uses: onlyutkarsh/patch-files-action@v1.0.1
+        env:
+          site: ${{secrets.FIREBASE_HOSTING_SITE}}
         with :
           files : |
             firebase.json
           patch-syntax: |
-            + /hosting/site => "${{secrets.FIREBASE_HOSTING_SITE}}"
+            + /hosting/site => "${{ env.site }}"
       - name: Build
         run: REACT_APP_FIREBASE_APIKEY=${{ secrets.REACT_APP_FIREBASE_APIKEY }} REACT_APP_FIREBASE_AUTHDOMAIN=${{ secrets.REACT_APP_FIREBASE_AUTHDOMAIN }} REACT_APP_FIREBASE_DBURL=${{ secrets.REACT_APP_FIREBASE_DBURL }} npm run build
       - name: Archive Production Artifact
