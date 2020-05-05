@@ -4,6 +4,7 @@
   },
   "hosting": {
     "public": "build",
+    "site": "chain-reaction",
     "ignore": [
       "firebase.json",
       "**/.*",
