@@ -81,7 +81,7 @@ const HostGame = () => {
         <button
           onClick={startGame}
           className="btn red-border-btn"
-          disabled={players.length < 2}
+          disabled={players.filter((player) => player.live).length < 2}
           align="center"
         >
           Start Game
