@@ -12,8 +12,8 @@ import './HostGame.css';
 
 const HostGame = () => {
   const [isHosted, setisHosted] = useState(false);
-  const [rows, setrows] = useState(6);
-  const [colums, setcolums] = useState(10);
+  const [rows] = useState(6);
+  const [colums] = useState(10);
   const [nickname, setnickname] = useState(
     `Guest${[Math.floor(Math.random() * 9999)]}`
   );
