@@ -34,7 +34,7 @@ const PlayerList = ({ gridStyle }) => {
                 !player.live && `dead-player-name`
               }`}
             >
-              {player.nickname}
+              {`${player.nickname}${!player.live ? `(offline)` : ``}`}
             </p>
           </div>
         ))}
