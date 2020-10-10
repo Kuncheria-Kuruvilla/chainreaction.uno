@@ -227,21 +227,20 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
-      operationId: get-v1-playgrounds-playgroundId-board
-  '/v1/playgrounds/{playgroundId}/board/ownCell':
-    parameters:
-      - schema:
-          type: string
-        name: playgroundId
-        in: path
-        required: true
-    patch:
-      summary: ''
-      operationId: patch-v1-playgrounds-playgroundId-board-ownCell
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cell'
+      operationId: get-v1-playgrounds-playgroundId-board
+  '/v1/playgrounds/{playgroundId}/board/claim_cell':
+    patch:
+      tags:
+        - Playground
 components:
   schemas:
     Player:
@@ -272,9 +271,6 @@ components:
             - waiting
             - active
             - over
-        winner:
-          type:
-            - string
         host:
           type: string
         players:
