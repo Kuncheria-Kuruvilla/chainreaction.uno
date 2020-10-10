@@ -5,13 +5,12 @@ import { joinGameAction, fetchGame } from '../../actions/gameActions';
 import { fetchAllPlayers, addPlayer } from '../../actions/playersAction';
 import { fetchGrid } from '../../actions/gridActions';
 import PlayerList4x2 from '../PlayerList/PlayerList4x2';
-import { PLAYERNAMES } from '../../game_logic/constants';
 
 const JoinGame = () => {
   const [isJoined, setisJoined] = useState(false);
   const [gameCode, setgameCode] = useState('');
   const [nickname, setnickname] = useState(
-    PLAYERNAMES[Math.floor(Math.random() * PLAYERNAMES.length)]
+    `Guest${[Math.floor(Math.random() * 9999)]}`
   );
 
   const dispatch = useDispatch();
@@ -77,7 +76,7 @@ const JoinGame = () => {
     </table>
   ) : (
     <React.Fragment>
-      <p>Waiting for others to join...</p>
+      <p>Waiting for host to start the game ...</p>
       <PlayerList4x2 />
     </React.Fragment>
   );

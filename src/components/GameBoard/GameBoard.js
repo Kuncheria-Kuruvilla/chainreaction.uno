@@ -103,15 +103,31 @@ const GameBoard = () => {
               })
             );
       gameStateRegistry.push(newGrid);
-      const nextCoordinates = getAdjacentCellCoordinates(
-        i,
-        j,
-        grid.length,
-        grid[0]?.length
-      );
-      nextCoordinates.forEach((coordinate) => {
-        startChainReaction(coordinate.x, coordinate.y, currentPlayerId);
-      });
+      const livePlayers = [];
+      if (gameStateRegistry.length > 0) {
+        players.forEach((player) => {
+          let isPlayerAlive = gameStateRegistry[
+            gameStateRegistry.length - 1
+          ].some((row) => row.some((col) => col.playerId === player?._id));
+          if (isPlayerAlive) {
+            livePlayers.push(player);
+          }
+        });
+      }
+      if (
+        livePlayers.length > 1 ||
+        !livePlayers.find((player) => player?._id === currentPlayerId)
+      ) {
+        const nextCoordinates = getAdjacentCellCoordinates(
+          i,
+          j,
+          grid.length,
+          grid[0]?.length
+        );
+        nextCoordinates.forEach((coordinate) => {
+          startChainReaction(coordinate.x, coordinate.y, currentPlayerId);
+        });
+      }
     }
   };
 
