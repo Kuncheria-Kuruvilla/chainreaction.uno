@@ -1,9 +1,39 @@
-openapi: '3.0.0'
+openapi: 3.0.0
 info:
   title: ChainReaction APIs
   version: '1.0'
 servers:
-- url: http://localhost:3000
-paths: {}
+  - url: 'http://localhost:3000'
+paths:
+  '/v1/playgrounds/{playgroundId}':
+    parameters:
+      - schema:
+          type: string
+        name: playgroundId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-v1-playgrounds-playgroundId
+  /v1/playgrounds:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-v1-playgrounds
+  '/v1/playgrounds/{playgroundId}/players':
+    parameters:
+      - schema:
+          type: string
+        name: playgroundId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-v1-playgrounds-playgroundId-players
 components:
   schemas: {}
