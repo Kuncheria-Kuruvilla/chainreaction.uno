@@ -9,14 +9,13 @@ import {
 import { initGrid, fetchGrid } from '../../actions/gridActions';
 import PlayerList4x2 from '../PlayerList/PlayerList4x2';
 import './HostGame.css';
-import { PLAYERNAMES } from '../../game_logic/constants';
 
 const HostGame = () => {
   const [isHosted, setisHosted] = useState(false);
-  const [rows, setrows] = useState(6);
-  const [colums, setcolums] = useState(10);
+  const [rows] = useState(6);
+  const [colums] = useState(10);
   const [nickname, setnickname] = useState(
-    PLAYERNAMES[Math.floor(Math.random() * PLAYERNAMES.length)]
+    `Guest${[Math.floor(Math.random() * 9999)]}`
   );
   const [gameCode, setGameCode] = useState();
   const players = useSelector((state) => state.players);
@@ -64,34 +63,6 @@ const HostGame = () => {
           </td>
         </tr>
         <tr>
-          <td>
-            <label htmlFor="number-of-rows">Rows</label>
-          </td>
-          <td>
-            <input
-              type="number"
-              id="number-of-rows"
-              value={rows}
-              className="inpt red-border-inpt"
-              onChange={(e) => setrows(e.target.value)}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label htmlFor="number-of-coloumns">Columns</label>
-          </td>
-          <td>
-            <input
-              type="number"
-              id="number-of-coloumns"
-              value={colums}
-              className="inpt red-border-inpt"
-              onChange={(e) => setcolums(e.target.value)}
-            />
-          </td>
-        </tr>
-        <tr>
           <td colSpan={2} align="center">
             <button onClick={hostGame} className="btn red-border-btn">
               Host Game
@@ -110,7 +81,7 @@ const HostGame = () => {
         <button
           onClick={startGame}
           className="btn red-border-btn"
-          disabled={players.length < 2}
+          disabled={players.filter((player) => player.live).length < 2}
           align="center"
         >
           Start Game
