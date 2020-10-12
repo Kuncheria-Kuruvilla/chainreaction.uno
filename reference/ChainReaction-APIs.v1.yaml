@@ -1,0 +1,333 @@
+openapi: 3.0.0
+info:
+  title: ChainReaction APIs
+  version: '1.0'
+  contact:
+    name: Chain Reaction Dev
+    url: chainreaction.uno
+  description: APIs to run chain-reaction game at chainreaction.uno
+servers:
+  - url: 'https://chainreaction-server2.azurewebsites.net/'
+    description: dev
+paths:
+  /v1/playgrounds:
+    get:
+      summary: Playgrounds
+      tags:
+        - Playground
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Playground'
+                  first:
+                    type: boolean
+                  last:
+                    type: boolean
+                  totalPages:
+                    type: integer
+                  totalElements:
+                    type: integer
+                  numberOfElements:
+                    type: integer
+                  size:
+                    type: integer
+                  pageNumber:
+                    type: number
+                  sort:
+                    type: object
+                    properties:
+                      property:
+                        type: string
+                      direction:
+                        type: string
+      operationId: get-v1-grounds
+    parameters: []
+    post:
+      summary: Create a playground
+      operationId: post-v1-playgrounds
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playground'
+          headers:
+            location:
+              schema:
+                type: string
+              description: The URI to the created playground
+      tags:
+        - Playground
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                host:
+                  $ref: '#/components/schemas/Player'
+                max_allowed_players:
+                  type: integer
+                private:
+                  type: boolean
+  '/v1/playgrounds/{playgroundId}':
+    parameters:
+      - schema:
+          type: string
+        name: playgroundId
+        in: path
+        required: true
+    get:
+      summary: Playground
+      tags:
+        - Playground
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playground'
+      operationId: get-v1-grounds-groundId
+  '/v1/playgrounds/{playgroundId}/players':
+    parameters:
+      - schema:
+          type: string
+        name: playgroundId
+        in: path
+        required: true
+    get:
+      summary: Players
+      tags:
+        - Playground
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Player'
+                  first:
+                    type: boolean
+                  last:
+                    type: boolean
+                  totalPages:
+                    type: integer
+                  totalElements:
+                    type: integer
+                  numberOfElements:
+                    type: integer
+                  size:
+                    type: integer
+                  pageNumber:
+                    type: number
+                  sort:
+                    type: object
+                    properties:
+                      property:
+                        type: string
+                      direction:
+                        type: string
+      operationId: get-v1-playgrounds-id-players
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: page
+        - schema:
+            type: integer
+          in: query
+          name: size
+  '/v1/playgrounds/{playgroundId}/players/{playerId}':
+    parameters:
+      - schema:
+          type: string
+        name: playerId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: playgroundId
+        in: path
+        required: true
+    get:
+      summary: Player
+      tags:
+        - Playground
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+      operationId: get-v1-playgrounds-id-players-playerId
+  '/v1/playgrounds/{playgroundId}/join':
+    parameters:
+      - schema:
+          type: string
+        name: playgroundId
+        in: path
+        required: true
+    patch:
+      summary: Join a playground
+      operationId: patch-v1-playgrounds-playgroundId-join
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playground'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                already-started:
+                  value:
+                    message: Game has already started
+                player-count-exceeded:
+                  value:
+                    message: Player count has exceeded
+                example-3:
+                  value:
+                    message: string
+                example-4:
+                  value:
+                    message: Player color already taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                player:
+                  $ref: '#/components/schemas/Player'
+      tags:
+        - Playground
+  '/v1/playgrounds/{playgroundId}/board':
+    parameters:
+      - schema:
+          type: string
+        name: playgroundId
+        in: path
+        required: true
+    get:
+      summary: Board
+      tags:
+        - Board
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cell'
+      operationId: get-v1-playgrounds-playgroundId-board
+      description: Get current game-board status
+  '/v1/playgrounds/{playgroundId}/board/claim_cell':
+    parameters:
+      - schema:
+          type: string
+        name: playgroundId
+        in: path
+        required: true
+    post:
+      summary: Claim a cell for a player
+      operationId: post-v1-playgrounds-playgroundId-board-claim_cell
+      responses:
+        '200':
+          description: OK
+      tags:
+        - Board
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cell:
+                  $ref: '#/components/schemas/Cell'
+                player:
+                  $ref: '#/components/schemas/Player'
+components:
+  schemas:
+    Player:
+      title: Player
+      type: object
+      x-tags:
+        - Playground
+      properties:
+        id:
+          type: string
+        isHost:
+          type: boolean
+        color:
+          type: string
+        turn:
+          type: boolean
+        killed:
+          type: boolean
+    Playground:
+      title: Playground
+      type: object
+      x-tags:
+        - Playground
+      properties:
+        key:
+          type: string
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+            - active
+            - over
+            - waiting
+          default: waiting
+        host:
+          type: string
+        players:
+          type: array
+          items:
+            $ref: '#/components/schemas/Player'
+    Cell:
+      title: Cell
+      type: object
+      properties:
+        row:
+          type: string
+        column:
+          type: string
+        player_id:
+          type: string
+        balls:
+          type: string
+      x-tags:
+        - Board
+tags:
+  - name: Playground
+  - name: Board
