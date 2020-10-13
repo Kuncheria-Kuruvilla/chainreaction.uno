@@ -7,7 +7,8 @@ info:
     url: chainreaction.uno
   description: APIs to run chain-reaction game at chainreaction.uno
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'https://chainreaction-server2.azurewebsites.net/'
+    description: dev
 paths:
   /v1/playgrounds:
     get:
