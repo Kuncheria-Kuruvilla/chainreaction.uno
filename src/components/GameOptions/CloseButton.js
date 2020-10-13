@@ -1,5 +1,6 @@
 import React from 'react';
 import './CloseButton.css';
+
 const CloseButton = ({ onCloseButtonClick }) => (
   <svg
     onClick={onCloseButtonClick}

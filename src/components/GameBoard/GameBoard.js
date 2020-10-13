@@ -229,7 +229,7 @@ const GameBoard = () => {
                               now={(timeLeft / PLAYER_TIMEOUT) * 100}
                               max={100}
                               color={currentPlayer?.color}
-                            ></CountDownTimer>
+                            />
                           )}
                         </div>
                       </td>
@@ -241,18 +241,18 @@ const GameBoard = () => {
                           <CornerCell
                             cellState={grid[i][j]}
                             cellClickHandler={handleCellClick(i, j)}
-                          ></CornerCell>
+                          />
                         ) : [0, grid.length - 1].includes(i) ||
                           [0, row.length - 1].includes(j) ? (
                           <BorderCell
                             cellState={grid[i][j]}
                             cellClickHandler={handleCellClick(i, j)}
-                          ></BorderCell>
+                          />
                         ) : (
                           <RegularCell
                             cellState={grid[i][j]}
                             cellClickHandler={handleCellClick(i, j)}
-                          ></RegularCell>
+                          />
                         )}
                       </td>
                     ))}
@@ -264,7 +264,7 @@ const GameBoard = () => {
                               now={(timeLeft / PLAYER_TIMEOUT) * 100}
                               max={100}
                               color={currentPlayer?.color}
-                            ></CountDownTimer>
+                            />
                           )}
                         </div>
                       </td>
@@ -276,11 +276,11 @@ const GameBoard = () => {
           </table>
         </Col>
       </Row>
-      <GameOptions show={game.state === GameState.PRE_INCEPTION}></GameOptions>
+      <GameOptions show={game.state === GameState.PRE_INCEPTION} />
       <GameOver
         show={game.state === GameState.GAME_OVER}
         winnerNickname={game?.winner?.nickname}
-      ></GameOver>
+      />
     </Container>
   );
 };

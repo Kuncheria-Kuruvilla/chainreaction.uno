@@ -27,14 +27,14 @@ const BorderCell = ({
         state={
           cellState?.activeBalls >= 1 ? BallState.ACTIVE : BallState.DISABLED
         }
-      ></Ball>
+      />
       <Ball
         color={possedPlayer?.color}
         alignment={ballStyle2}
         state={
           cellState?.activeBalls >= 2 ? BallState.ACTIVE : BallState.DISABLED
         }
-      ></Ball>
+      />
     </Cell>
   );
 };

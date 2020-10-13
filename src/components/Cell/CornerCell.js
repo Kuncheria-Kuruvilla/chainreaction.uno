@@ -24,7 +24,7 @@ const CornerCell = ({
         state={
           cellState?.activeBalls >= 1 ? BallState.ACTIVE : BallState.DISABLED
         }
-      ></Ball>
+      />
     </Cell>
   );
 };

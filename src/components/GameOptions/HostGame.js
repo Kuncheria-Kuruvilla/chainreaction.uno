@@ -59,7 +59,7 @@ const HostGame = () => {
               className="inpt red-border-inpt"
               value={nickname}
               onChange={(e) => setnickname(e.target.value)}
-            ></input>
+            />
           </td>
         </tr>
         <tr>
