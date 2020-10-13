@@ -1,5 +1,5 @@
 export const FirebaseConfig = {
-  apiKey: `${process.env.REACT_APP_FIREBASE_APIKEY}`,
-  authDomain: `${process.env.REACT_APP_FIREBASE_AUTHDOMAIN}`,
-  databaseURL: `${process.env.REACT_APP_FIREBASE_DBURL}`,
+  apiKey: `AIzaSyAef8cM7tWbY0otasS6IDyE1ujhMwjlaV4`,
+  authDomain: `styx-studio-games.firebaseapp.com`,
+  databaseURL: `https://styx-studio-games.firebaseio.com`,
 };

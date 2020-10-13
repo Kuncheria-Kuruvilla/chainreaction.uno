@@ -4,8 +4,8 @@ import { MAX_ALLOWED_PLAYERS } from '../game_logic/constants';
 
 export const hostGameAction = () => async (dispatch) => {
   return new Promise((resolve, reject) => {
-    var newGameKey = playgroundsRef.push().key;
-    var updates = {};
+    const newGameKey = playgroundsRef.push().key;
+    const updates = {};
     updates[`/${newGameKey}/game`] = { state: GameState.PRE_INCEPTION };
     playgroundsRef.update(updates);
 
@@ -24,9 +24,9 @@ export const hostGameAction = () => async (dispatch) => {
 
 export const startGameAction = () => async (dispatch) => {
   const playgroundId = sessionStorage.getItem('playgroundId');
-  var updates = {};
+  const updates = {};
   updates[`/${playgroundId}/game`] = { state: GameState.GAME_ON, winner: null };
-  playgroundsRef.update(updates);
+  await playgroundsRef.update(updates);
 };
 
 export const joinGameAction = (gameCode) => async (dispatch) =>
@@ -57,13 +57,13 @@ export const joinGameAction = (gameCode) => async (dispatch) =>
     );
 
 export const endGame = (playgroundId) => async (dispatch) => {
-  var updates = {};
+  const updates = {};
   updates[`/${playgroundId}/game/state`] = GameState.GAME_OVER;
   return playgroundsRef.update(updates);
 };
 
 export const setWinner = (playgroundId, playerId) => async (dispatch) => {
-  var updates = {};
+  const updates = {};
   updates[`/${playgroundId}/game/winner`] = playerId;
   return playgroundsRef.update(updates);
 };

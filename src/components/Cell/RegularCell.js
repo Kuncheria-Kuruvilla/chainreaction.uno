@@ -31,21 +31,21 @@ const RegularCell = ({
         state={
           cellState?.activeBalls >= 1 ? BallState.ACTIVE : BallState.DISABLED
         }
-      ></Ball>
+      />
       <Ball
         color={possedPlayer?.color}
         alignment={ballStyle2}
         state={
           cellState?.activeBalls >= 2 ? BallState.ACTIVE : BallState.DISABLED
         }
-      ></Ball>
+      />
       <Ball
         color={possedPlayer?.color}
         alignment={ballStyle3}
         state={
           cellState?.activeBalls >= 3 ? BallState.ACTIVE : BallState.DISABLED
         }
-      ></Ball>
+      />
     </Cell>
   );
 };

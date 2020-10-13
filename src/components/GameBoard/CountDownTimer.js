@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './CountDownTimer.css';
+
 function CountDownTimer({ now, max, color }) {
   return (
     <div
@@ -16,8 +17,9 @@ function CountDownTimer({ now, max, color }) {
           height: `${now}%`,
           backgroundColor: `${color}`,
         }}
-      ></div>
+      />
     </div>
   );
 }
+
 export default CountDownTimer;

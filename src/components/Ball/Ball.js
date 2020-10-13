@@ -2,6 +2,7 @@ import React from 'react';
 import BallState from '../../game_logic/ball_state';
 
 import './Ball.css';
+
 const Ball = ({ color, alignment, state }) => {
   const displayState = {
     [BallState.DEAD]: 'none',

@@ -48,7 +48,7 @@ const JoinGame = () => {
               value={gameCode}
               className="inpt red-border-inpt"
               onChange={(e) => setgameCode(e.target.value)}
-            ></input>
+            />
           </td>
         </tr>
         <tr>
@@ -62,7 +62,7 @@ const JoinGame = () => {
               value={nickname}
               className="inpt red-border-inpt"
               onChange={(e) => setnickname(e.target.value)}
-            ></input>
+            />
           </td>
         </tr>
         <tr>

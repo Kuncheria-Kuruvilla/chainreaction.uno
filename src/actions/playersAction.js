@@ -7,8 +7,8 @@ export const fetchAllPlayers = () => async (dispatch) => {
     .child(`${playgroundId}`)
     .child(`players`)
     .on('value', (snapshot) => {
-      var playersList = [];
-      for (var playerKey in snapshot.val()) {
+      const playersList = [];
+      for (const playerKey in snapshot.val()) {
         playersList.push(snapshot.val()[playerKey]);
       }
       dispatch(setAllPlayers(playersList));
@@ -41,7 +41,7 @@ export const addPlayer = (playgroundId, nickname, host = false) => async (
           _id: playerId,
           color: COLOR[snapshot.numChildren()],
           nickname: nickname,
-          active: host ? true : false,
+          active: host,
           live: true,
         };
         playgroundsRef.update(playerUpdateObj);
@@ -63,8 +63,8 @@ export const activateNextPlayer = (playgroundId) => async (dispatch) =>
     .orderByKey()
     .once('value')
     .then((snapshot) => {
-      var players = [];
-      for (var key in snapshot.val()) {
+      const players = [];
+      for (const key in snapshot.val()) {
         players.push(snapshot.val()[key]);
       }
       const livePlayers = players.filter((player) => player.live);

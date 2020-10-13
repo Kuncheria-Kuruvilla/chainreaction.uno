@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import './PlayerList.css';
 import { Container } from 'react-bootstrap';
+
 const PlayerList = ({ gridStyle }) => {
   const players = useSelector((state) => state.players);
   const ballStyle = (color) => ({

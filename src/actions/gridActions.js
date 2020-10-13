@@ -72,8 +72,8 @@ export const blowCell = (x, y) => async (dispatch) => {
   const playgroundId = sessionStorage.getItem('playgroundId');
   const updateObj = {};
   updateObj[`/${playgroundId}/grid/${x}/${y}/activeBalls`] = 0;
-  playgroundsRef.update(updateObj);
-  playgroundsRef
+  await playgroundsRef.update(updateObj);
+  await playgroundsRef
     .child(`${playgroundId}`)
     .child(`grid`)
     .child(x)
