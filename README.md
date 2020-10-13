@@ -1,14 +1,23 @@
-See the app in action at [chainreaction.uno](https://chainreaction.uno/)
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![chainreaction-logo](/assets/logo.png)
 
-## Contributing Guide
+# chainreaction.uno
 
-We use the github forking workflow. Reffer these amazing articles for more information on forking workflow.<br />
+> A serverless implementation of the classic strategy game, chain reaction.
 
-- [GitHub Forking](https://gist.github.com/Chaser324/ce0505fbed06b947d962)<br />
-- [Forking workflow by Atlassian](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow)<br />
+<a href="https://github.com/Kuncheria-Kuruvilla/chainreaction.uno/stargazers">
+    <img src="https://img.shields.io/github/stars/Kuncheria-Kuruvilla/chainreaction.uno.svg">
+</a>
+<a href="https://github.com/Kuncheria-Kuruvilla/chainreaction.uno/issues">
+    <img src="https://img.shields.io/github/issues/Kuncheria-Kuruvilla/chainreaction.uno.svg">
+</a>
+<img src="https://img.shields.io/github/workflow/status/Kuncheria-Kuruvilla/chainreaction.uno/Build%20and%20Deploy%20to%20Firebase">
+<img src="https://img.shields.io/website?url=https%3A%2F%2Fchainreaction.uno%2F">
 
-## Available Scripts
+![chainreaction.uno](/assets/screenshot.png)
+
+Create a game, share the game join-code with friends, start and play game reaction. See the app in action at [chainreaction.uno](https://chainreaction.uno/), This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Running locally
 
 In the project directory, you can run:
 
@@ -17,30 +26,22 @@ In the project directory, you can run:
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Contributing
 
-### `npm test`
+Contributions are very welcome, and I am always happy to help out first-timers contributors with any questions you may have. You can check out the [contributing.md](./contributing.md) for an in-depth guide on how to get started on working on the app.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Contributing Guide
 
-### `npm run build`
+We use the github forking workflow. Reffer these amazing articles for more information on forking workflow.
+<br />
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [GitHub Forking](https://gist.github.com/Chaser324/ce0505fbed06b947d962)
+  <br />
+- [Forking workflow by Atlassian](https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow)
+  <br />
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## License
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+MIT © Kuncheriya Kuruvila
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=https://github.com/Kuncheria-Kuruvilla/chainreaction.uno)
